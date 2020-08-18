@@ -1,0 +1,10 @@
+let testNum = 6;
+let boolFalse = false;
+let boolTrue = true;
+console.log("Test String");
+console.log(testNum);
+console.log(boolFalse);
+console.log(boolTrue);
+console.log(+boolFalse);
+console.log(+boolTrue);
+console.log(++testNum);
