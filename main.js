@@ -1,4 +1,4 @@
-const $btnkick = document.getElementById('btn-kick');
+const $btnstrike = document.getElementById('btn-kick');
 const $btnheal = document.getElementById('btn-heal');
 
 const character = {
@@ -7,6 +7,9 @@ defaultHP: 200,
 damagedHP: 200,
 elHP: document.getElementById('health-character'),
 elHPBar: document.getElementById('progressbar-character'),
+renderHP: renderHP,
+strike: strike,
+heal: heal,
 }
 const enemy = {
 name: 'Charmander',
@@ -14,13 +17,23 @@ defaultHP: 200,
 damagedHP: 200,
 elHP: document.getElementById('health-enemy'),
 elHPBar: document.getElementById('progressbar-enemy'),
+renderHP: renderHP,
+strike: strike,
+heal: heal,
 }
 
-$btnkick.addEventListener('click', function(){
+function init(){
+
+console.log('Start game!');
+character.renderHP();
+enemy.renderHP();
+}
+
+$btnstrike.addEventListener('click', function(){
 
 console.log('Strike');
-strike (rnd(20), character);
-strike (rnd(20), enemy);
+character.strike (rnd(20));
+enemy.strike (rnd(20));
 
 })
 
@@ -28,69 +41,59 @@ $btnheal.addEventListener('click', function()
 {
 
   console.log('Heal');
-  heal (rnd(20), character);
-  heal (rnd(20), enemy);
+  character.heal (rnd(20));
+  enemy.heal (rnd(20));
 
 })
 
+function renderHP(){
 
-function init(){
-
-console.log('Start game!');
-renderHP(character);
-renderHP(enemy);
+this.elHP.innerText = this.damagedHP + ' / ' + this.defaultHP;
+this.elHPBar.style.width = (this.damagedHP / (this.defaultHP/100)) + '%';
 }
 
-function renderHP(person){
-
-person.elHP.innerText = person.damagedHP + ' / ' + person.defaultHP;
-person.elHPBar.style.width = (person.damagedHP / (person.defaultHP/100)) + '%';
-}
-
-function strike(dmg, person){
-  if (person.damagedHP <= dmg)
+function strike(dmg){
+  if (this.damagedHP <= dmg)
   {
 
-person.damagedHP = 0;
-alert(person.name + ' сражался достойно, но проиграл!')
-$btnkick.disabled = true;
+this.damagedHP = 0;
+alert(this.name + ' сражался достойно, но проиграл!')
+$btnstrike.disabled = true;
   }
   else{
-person.damagedHP -= dmg;
+this.damagedHP -= dmg;
 
 }
-renderHP(person);
+this.renderHP();
 }
 let cnt = 0;
+function heal(hl){
+let t = cnt++ - 1;
 
-function heal(hl, person){
-cnt++;
-if (cnt === 3)
+if (t === 3)
 {
 
 $btnheal.disabled = true;
 
 }
-if(person.defaultHP <= (person.damagedHP += hl))
+
+if(this.defaultHP <= (this.damagedHP + hl))
 {
 
-person.damagedHP = person.defaultHP;
+this.damagedHP = this.defaultHP;
 
 }
 else{
 
-person.damagedHP += hl;
+this.damagedHP += hl;
 
 }
-renderHP(person);
+this.renderHP();
 }
 
 function rnd(num){
 
-
 return Math.ceil(Math.random()*num);
 
-
 }
-
 init();
