@@ -1,6 +1,5 @@
 const $btnstrike = document.getElementById('btn-kick');
 const $btnheal = document.getElementById('btn-heal');
-$btnstrike.getElementsByTagName('span')[1];
 const character = {
 name: 'Pikachu',
 defaultHP: 200,
