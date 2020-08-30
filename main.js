@@ -136,7 +136,7 @@ function generateLogHeal(character,hl)
   function lifelog()
   {
 
-  return `+ ${hl}, [${character.damagedHP} / ext${character.defaultHP}]`;
+  return `+ ${hl}, [${character.damagedHP} / ${character.defaultHP}]`;
 
   }
 const logs = [
