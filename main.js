@@ -1,6 +1,5 @@
 const $btnstrike = document.getElementById('btn-kick');
 const $btnheal = document.getElementById('btn-heal');
-
 const character = {
 name: 'Pikachu',
 defaultHP: 200,
@@ -22,11 +21,16 @@ strike: strike,
 heal: heal,
 }
 
-function init(){
 
+let cntKick = 10;
+let cntHeal = 3;
+
+function init(){
 console.log('Start game!');
 character.renderHP();
 enemy.renderHP();
+$btnstrike.innerText = `Thunder Jolt [${cntKick}]`;
+$btnheal.innerText = `Heal [${cntHeal}]`;
 }
 
 $btnstrike.addEventListener('click', function(){
@@ -34,8 +38,8 @@ $btnstrike.addEventListener('click', function(){
 console.log('Strike');
 character.strike (rnd(20));
 enemy.strike (rnd(20));
-
 })
+$btnstrike.addEventListener('click', count($btnstrike, cntKick))
 $btnheal.addEventListener('click', function()
 {
 
@@ -44,7 +48,7 @@ $btnheal.addEventListener('click', function()
   enemy.heal (rnd(20));
 
 })
-
+$btnheal.addEventListener('click', count($btnheal, cntHeal))
 function renderHP(){
 
 this.elHP.innerText = this.damagedHP + ' / ' + this.defaultHP;
@@ -52,8 +56,7 @@ this.elHPBar.style.width = (this.damagedHP / (this.defaultHP/100)) + '%';
 }
 
 function strike(dmg){
-
-  this.damagedHP -= dmg;
+this.damagedHP -= dmg;
 const log = this === enemy ? generateLogDmg(this, character, dmg) : generateLogDmg(this, enemy, dmg);
 const $logs = document.querySelector('#logs');
 const $p = document.createElement('p');
@@ -71,12 +74,8 @@ $btnstrike.disabled = true;
 this.renderHP();
 }
 
-let cnt = 0;
-
 function heal(hl){
-
-let t = cnt++ - 1;
-
+let t = 0;
 if (t === 3)
 {
 
@@ -102,15 +101,12 @@ $logs.insertBefore($p, $logs.children[0]);
 this.renderHP();
 }
 
-function rnd(num){
-
-return Math.ceil(Math.random()*num);
-
-}
+const rnd = (num) => Math.ceil(Math.random()*num);
 
 function generateLogDmg(firstCharacter, secondCharacter, dmg){
   function lifelog()
   {
+
   return `- ${dmg}, [${firstCharacter.damagedHP} / ${firstCharacter.defaultHP}]`;
 
   }
@@ -156,4 +152,27 @@ const logs = [
 return logs[rnd(logs.length) - 1];
 }
 
-init();
+function count($btn, clickNumb){
+let num = 0;
+return function(){
+  num ++;
+  console.log(`Number of clicks: ${num}`);
+  if($btn === $btnstrike)
+  {
+  $btn.innerText = `Thunder Jolt [${clickNumb - num}]`;
+}
+else if($btn === $btnheal){
+
+$btn.innerText = `Heal [${clickNumb - num}]`;
+
+}
+  if (num >= clickNumb){
+
+$btn.disabled = true;
+
+  }
+
+}
+}
+
+init()
