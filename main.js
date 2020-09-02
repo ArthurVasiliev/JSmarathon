@@ -112,6 +112,7 @@ function generateLogHeal(character,hl)
 
   return `+ ${hl}, [${character.hp.current} / ${character.hp.total}]`;
 
+
   }
 const logs = [
 `${character.name} хлебнул пивка и почувстовал прилив сил. ${lifelog()}`,
